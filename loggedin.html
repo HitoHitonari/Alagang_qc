@@ -5,19 +5,23 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="globals.css" />
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
   </head>
   <body>
     <div class="HEADER">
       <header class="header">
         <div class="frame">
           <div class="LOGO"></div>
-          <a href="register.html" class="header-appointment-button">REGISTER</a>
-          <a href="login.html" class="header-appointment-button">LOGIN</a>
-          
+          <!-- Removed REGISTER and LOG IN buttons -->
+          <div class="profile-section">
+            <a href="profile.html" class="header-appointment-button">PROFILE</a>
+            <button class="header-appointment-button" onclick="logout()">LOGOUT</button>
+          </div>
         </div>
         <div class="div">
           <div class="TEXT-HOVER">
-            <a href="index.html" class="nav-link">HOME</a>
+            <a href="index.html" class="nav-link redirect">HOME</a>
           </div>
           <div class="TEXT-HOVER">
             <a href="aboutus.html" class="nav-link">ABOUT US</a>
@@ -70,7 +74,7 @@
               Alagang Bayan Quezon City Health Information System is a digital initiative by the Quezon City Government aimed at transforming how health services are delivered and managed across the city.
             </p>
           </div>
-          
+
           <div class="about-us-column">
             <div class="about-us-image">
               <img src="./imgs/edsa_statue.jpg" alt="Quezon City Monument representing healthcare objectives" />
@@ -80,7 +84,7 @@
               Designed with local residents and healthcare workers in mind, the system provides a centralized, secure, and user-friendly platform for managing patient records, scheduling appointments, and tracking vaccinations.
             </p>
           </div>
-          
+
           <div class="about-us-column">
             <div class="about-us-image">
               <img src="./imgs/oblation.jpg" alt="Government building representing security and privacy" />
@@ -210,7 +214,7 @@
         <h2 class="feedback-heading">Feedback</h2>
         <div class="feedback-cards">
           <div class="feedback-card">
-            <p class="quote">"Excellent service!"</p>
+            <p class="quote">\"Excellent service!\"</p>
             <div class="user-info">
               <img src="./imgs/review1.jpg" alt="User 1" class="user-image" />
               <div>
@@ -220,7 +224,7 @@
             </div>
           </div>
           <div class="feedback-card">
-            <p class="quote">"Wow, amazing experience!"</p>
+            <p class="quote">\"Wow, amazing experience!\"</p>
             <div class="user-info">
               <img src="./imgs/review2.jpg" alt="User 2" class="user-image" />
               <div>
@@ -230,7 +234,7 @@
             </div>
           </div>
           <div class="feedback-card">
-            <p class="quote">"Highly recommend this service!"</p>
+            <p class="quote">\"Highly recommend this service!\"</p>
             <div class="user-info">
               <img src="./imgs/review3.jpg" alt="User 3" class="user-image" />
               <div>
@@ -277,22 +281,31 @@
     </div>
 
     <script>
-      function scrollServices(direction) {
-        const container = document.getElementById('servicesScroll');
-        const scrollAmount = 320; // Width of one card plus gap
-        
-        if (direction === 'left') {
-          container.scrollBy({
-            left: -scrollAmount,
-            behavior: 'smooth'
-          });
-        } else {
-          container.scrollBy({
-            left: scrollAmount,
-            behavior: 'smooth'
-          });
-        }
-      }
+      function logout() {
+  Swal.fire({
+    title: 'Are you sure you want to logout?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, logout',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      localStorage.removeItem('isLoggedIn');
+      Swal.fire({
+        title: 'Logged out!',
+        text: 'You have been successfully logged out.',
+        icon: 'success',
+        timer: 1500,
+        showConfirmButton: false
+      }).then(() => {
+        window.location.href = 'index.html';
+      });
+    }
+  });
+}
+
       
       function toggleDropdown() {
         const dropdown = document.getElementById('locationDropdown');
@@ -330,6 +343,27 @@
           dropdown.classList.remove('show');
           button.setAttribute('aria-expanded', 'false');
           button.focus();
+        }
+      });
+    </script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        
+        if (isLoggedIn) {
+          // Find all buttons or links you want to redirect
+          document.querySelectorAll('.redirect').forEach(el => {
+            // Only modify if it has an href or is a button with type='button'
+            if (el.tagName === 'A') {
+              el.setAttribute('href', 'loggedin.html');
+            } else if (el.tagName === 'BUTTON') {
+              el.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.location.href = 'loggedin.html';
+              });
+            }
+          });
         }
       });
     </script>

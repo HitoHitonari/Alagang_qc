@@ -5,20 +5,19 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="globals.css" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="appointment-styles.css">
+    <link rel="stylesheet" href="appointment-styles.css" />
     <title>Book an Appointment - Alagang Bayan</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <div class="HEADER">
       <header class="header">
         <div class="frame">
           <div class="LOGO"></div>
-          <a href="register.html" class="header-appointment-button">REGISTER</a>
-          <a href="login.html" class="header-appointment-button">LOG IN</a>
         </div>
         <div class="div">
           <div class="TEXT-HOVER">
-            <a href="index.html" class="nav-link">HOME</a>
+            <a href="index.html" class="nav-link redirect">HOME</a>
           </div>
           <div class="TEXT-HOVER">
             <a href="aboutus.html" class="nav-link">ABOUT US</a>
@@ -50,7 +49,7 @@
           <h2 class="appointment-title">Book an Appointment</h2>
           <p class="appointment-subtitle">Schedule your visit with our healthcare professionals</p>
         </div>
-        
+
         <form class="appointment-form" id="appointmentForm" onsubmit="handleAppointmentSubmit(event)">
           <div class="form-group">
             <label for="fullName" class="form-label">Full Name</label>
@@ -204,7 +203,7 @@
 
     <script>
       // Set minimum date to today
-      document.addEventListener('DOMContentLoaded', function() {
+      document.addEventListener('DOMContentLoaded', function () {
         const dateInput = document.getElementById('appointmentDate');
         const today = new Date().toISOString().split('T')[0];
         dateInput.setAttribute('min', today);
@@ -224,11 +223,10 @@
         }
       }
 
-      // Close dropdown when clicking outside
-      window.addEventListener('click', function(event) {
-        if (!event.target.matches('.dropdown-button') && 
-            !event.target.matches('.text-wrapper-2') && 
-            !event.target.matches('.ri-arrow-down-s-line')) {
+      window.addEventListener('click', function (event) {
+        if (!event.target.matches('.dropdown-button') &&
+          !event.target.matches('.text-wrapper-2') &&
+          !event.target.matches('.ri-arrow-down-s-line')) {
           const dropdown = document.getElementById('locationDropdown');
           const button = document.querySelector('.dropdown-button');
           dropdown.classList.remove('show');
@@ -236,12 +234,9 @@
         }
       });
 
-      // Keyboard navigation
-      document.addEventListener('keydown', function(event) {
+      document.addEventListener('keydown', function (event) {
         const dropdown = document.getElementById('locationDropdown');
         const button = document.querySelector('.dropdown-button');
-
-        // Close dropdown on Escape key
         if (event.key === 'Escape' && dropdown.classList.contains('show')) {
           dropdown.classList.remove('show');
           button.setAttribute('aria-expanded', 'false');
@@ -252,7 +247,6 @@
       function handleAppointmentSubmit(event) {
         event.preventDefault();
 
-        // Get form data
         const formData = new FormData(event.target);
         const appointmentData = {
           fullName: formData.get('fullName'),
@@ -265,19 +259,40 @@
           notes: formData.get('notes')
         };
 
-        // Here you would typically send the data to your backend
         console.log('Appointment Data:', appointmentData);
 
-        // Show success message
-        alert('Appointment request submitted successfully! We will contact you shortly to confirm your appointment.');
-
-        // Reset form
-        event.target.reset();
-
-        // Redirect to confirmation page (create this page if needed)
-        // window.location.href = 'appointment-confirmation.html';
+        Swal.fire({
+          title: 'Appointment Booked!',
+          text: 'Your appointment has been successfully submitted. We will contact you shortly to confirm.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        }).then(() => {
+          event.target.reset();
+          // Optional: redirect
+          // window.location.href = 'appointment-confirmation.html';
+        });
       }
     </script>
 
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        
+        if (isLoggedIn) {
+          // Find all buttons or links you want to redirect
+          document.querySelectorAll('.redirect').forEach(el => {
+            // Only modify if it has an href or is a button with type='button'
+            if (el.tagName === 'A') {
+              el.setAttribute('href', 'loggedin.html');
+            } else if (el.tagName === 'BUTTON') {
+              el.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.location.href = 'loggedin.html';
+              });
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>

@@ -1,5 +1,6 @@
 /* Patient Registration Page Styles - Updated to match site color scheme */
 .registration-container {
+  margin-top: 145px;
   min-height: calc(100vh - 200px);
   display: flex;
   align-items: flex-start;

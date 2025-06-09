@@ -5,9 +5,27 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="globals.css" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="profile.css" />
+    <title>Profile - Alagang Bayan</title>
   </head>
   <body>
+
+    <aside class="sidebar">
+  <button class="menu-toggle" onclick="toggleSidebar()">&#9776;</button>
+  <nav class="sidebar-menu">
+    <a href="profile.html" class="menu-item">
+      <img src="./imgs/user.svg" alt="Home" />
+      <span class="label">User Profile</span>
+    </a>
+    <a href="profile.html" class="menu-item">
+      <img src="./imgs/history.svg" alt="Profile" />
+      <span class="label">Medical History</span>
+    </a>
+  </nav>
+</aside>
+
+
+    <!-- HEADER -->
     <div class="HEADER">
       <header class="header">
         <div class="frame">
@@ -40,39 +58,57 @@
         </div>
       </header>
     </div>
-    
-    <section class="registration-section">
-  <div class="registration-content">
-    <div class="left-column">
-      <h1 class="main-heading">MABUHAY!</h1>
-      <p class="welcome-text">
-        Welcome to Alagang Bayan, your digital health partner in Quezon City. Share your feedback to help us improve your healthcare experience.
-      </p>
-    </div>
-    
-    <div class="right-column">
-      <div class="feedback-form-container">
-        <h1 class="feedback-form-title">FEEDBACK FORM</h1>
-        <form class="feedback-form">
-          <label for="first-name">First name</label>
-          <input type="text" id="first-name" name="first-name" placeholder="Alagang" required>
 
-          <label for="last-name">Last name</label>
-          <input type="text" id="last-name" name="last-name" placeholder="Bayan" required>
+    <!-- PROFILE SECTION -->
+    <section class="profile-section">
+      <div class="profile-container">
+        <!-- User Info Box -->
+        <div class="user-info-box">
+          <div class="profile-avatar">
+            <img src="./imgs/profile.png" alt="User Avatar" onerror="this.onerror=null; this.src='./imgs/avatar_placeholder.png';" />
+          </div>
+          <div class="profile-name-role">
+            <h1>John Doe</h1>
+            <p class="role">Patient</p>
+          </div>
+          <button class="edit-profile-button">Edit Profile</button>
+        </div>
 
-          <label for="email">Email address</label>
-          <input type="email" id="email" name="email" placeholder="alagangbayan.qc.ph@email.com" required>
+        <!-- White Bar for Personal Information -->
+        <div class="info-bar">
+          <h2>Personal Information</h2>
+          <div class="profile-details">
+            <div class="personal-info card">
+              <table>
+                <tbody>
+                  <tr><td class="label">First Name</td><td>John</td></tr>
+                  <tr><td class="label">Last Name</td><td>Doe</td></tr>
+                  <tr><td class="label">Phone Number</td><td>091234569</td></tr>
+                  <tr><td class="label">Gender</td><td>Other</td></tr>
+                  <tr><td class="label">Age</td><td>25</td></tr>
+                  <tr><td class="label">Date of Birth</td><td>01/01/2025</td></tr>
+                  <tr><td class="label">Email</td><td>johndoe@gmail.com</td></tr>
+                </tbody>
+              </table>
+            </div>
 
-          <label for="message">Your message</label>
-          <textarea id="message" name="message" rows="4" placeholder="Enter your question or message" required></textarea>
-
-          <button type="submit">Submit</button>
-        </form>
+            <div class="address-info card">
+              <h2>Complete Address</h2>
+              <table>
+                <tbody>
+                  <tr><td class="label">Street</td><td>123 Street</td></tr>
+                  <tr><td class="label">Postal Code</td><td>1126</td></tr>
+                  <tr><td class="label">District</td><td>2nd District</td></tr>
+                  <tr><td class="label">Barangay</td><td>Batasan Hills</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
+    <!-- FOOTER -->
     <footer class="footer-section">
       <div class="footer-background">
         <div class="footer-content">
@@ -97,7 +133,7 @@
             <p class="footer-email">info@alagangbayan.qc.ph</p>
             <h4 class="footer-heading">Support:</h4>
             <ul class="footer-support-list">
-              <li><a href="#" class="footer-support-link">Feedback Form</a></li>
+              <li><a href="feedback.html" class="footer-support-link">Feedback Form</a></li>
               <li><a href="#" class="footer-support-link">Chatbot</a></li>
               <li><a href="#" class="footer-support-link">FAQS</a></li>
             </ul>
@@ -106,29 +142,13 @@
       </div>
     </footer>
 
+    <!-- DROPDOWN SCRIPT -->
     <script>
-      function scrollServices(direction) {
-        const container = document.getElementById('servicesScroll');
-        const scrollAmount = 320; // Width of one card plus gap
-        
-        if (direction === 'left') {
-          container.scrollBy({
-            left: -scrollAmount,
-            behavior: 'smooth'
-          });
-        } else {
-          container.scrollBy({
-            left: scrollAmount,
-            behavior: 'smooth'
-          });
-        }
-      }
-      
       function toggleDropdown() {
         const dropdown = document.getElementById('locationDropdown');
         const button = document.querySelector('.dropdown-button');
         const isExpanded = button.getAttribute('aria-expanded') === 'true';
-        
+
         if (isExpanded) {
           dropdown.classList.remove('show');
           button.setAttribute('aria-expanded', 'false');
@@ -137,11 +157,10 @@
           button.setAttribute('aria-expanded', 'true');
         }
       }
-      
-      // Close dropdown when clicking outside
+
       window.addEventListener('click', function(event) {
-        if (!event.target.matches('.dropdown-button') && 
-            !event.target.matches('.text-wrapper-2') && 
+        if (!event.target.matches('.dropdown-button') &&
+            !event.target.matches('.text-wrapper-2') &&
             !event.target.matches('.ri-arrow-down-s-line')) {
           const dropdown = document.getElementById('locationDropdown');
           const button = document.querySelector('.dropdown-button');
@@ -149,13 +168,10 @@
           button.setAttribute('aria-expanded', 'false');
         }
       });
-      
-      // Keyboard navigation
+
       document.addEventListener('keydown', function(event) {
         const dropdown = document.getElementById('locationDropdown');
         const button = document.querySelector('.dropdown-button');
-        
-        // Close dropdown on Escape key
         if (event.key === 'Escape' && dropdown.classList.contains('show')) {
           dropdown.classList.remove('show');
           button.setAttribute('aria-expanded', 'false');
@@ -165,6 +181,23 @@
     </script>
 
     <script>
+  function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('expanded');
+  }
+
+  document.querySelector('.alert-link').addEventListener('click', function (e) {
+    e.preventDefault(); // Stop normal link behavior
+    Swal.fire({
+      title: 'Alert Title!',
+      text: 'This is a SweetAlert triggered by clicking a link.',
+      icon: 'info',
+      confirmButtonText: 'OK'
+    });
+  });
+
+</script>
+
+<script>
   document.addEventListener('DOMContentLoaded', function () {
     const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
 

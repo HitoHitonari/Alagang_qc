@@ -2219,3 +2219,9 @@ line-height: 150%; /* 24px */
 .feedback-form button:hover {
     background-color: #333; /* Darker background on hover */
 }
+
+.profile-section {
+  display: flex;
+  gap: 10px; /* Optional: adds spacing between buttons */
+  align-items: center;
+}

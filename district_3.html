@@ -14,7 +14,7 @@
         </div>
         <div class="div">
           <div class="TEXT-HOVER">
-            <a href="index.html" class="nav-link">HOME</a>
+            <a href="index.html" class="nav-link redirect">HOME</a>
           </div>
           <div class="TEXT-HOVER">
             <a href="aboutus.html" class="nav-link">ABOUT US</a>
@@ -222,5 +222,25 @@
         });
       </script>
 
+      <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+    if (isLoggedIn) {
+      // Find all buttons or links you want to redirect
+      document.querySelectorAll('.redirect').forEach(el => {
+        // Only modify if it has an href or is a button with type='button'
+        if (el.tagName === 'A') {
+          el.setAttribute('href', 'loggedin.html');
+        } else if (el.tagName === 'BUTTON') {
+          el.addEventListener('click', function (e) {
+            e.preventDefault();
+            window.location.href = 'loggedin.html';
+          });
+        }
+      });
+    }
+  });
+</script>
   </body>
 </html>

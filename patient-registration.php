@@ -189,6 +189,7 @@
               <label for="emergencyRelationship" class="form-label">Relationship *</label>
               <select id="emergencyRelationship" name="emergencyRelationship" class="form-input" required>
                 <option value="">Select relationship</option>
+                <option value="self">Self</option>
                 <option value="spouse">Spouse</option>
                 <option value="parent">Parent</option>
                 <option value="child">Child</option>

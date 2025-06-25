@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="globals.css" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Login Page</title>
+  
+  <!-- SweetAlert2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="HEADER">
+    <header class="header">
+      <div class="frame">
+        <div class="LOGO"></div>
+      </div>
+      <div class="div">
+
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <section class="registration-section">
+    <div class="registration-content">
+      <div class="left-column">
+        <h1 class="main-heading">ADMIN LOGIN</h1>
+        <p class="welcome-text">
+          
+        </p>
+      </div>
+
+      <div class="right-column">
+        <div class="form-card">
+          <h2 class="form-heading">LOG IN YOUR ACCOUNT</h2>
+          <form action="login.php" method="post">
+            <input type="email" name="emailaddress" placeholder="Email Address" class="input-field" required />
+            <input type="password" name="password" placeholder="Password" class="input-field" required />
+            <button type="submit" class="signup-button">LOGIN</button>
+          </form>
+          <div class="divider">
+            <span class="divider-line"></span>
+            <span class="or-text">OR</span>
+            <span class="divider-line"></span>
+          </div>
+          <div class="social-login">
+            <img src="./imgs/GOOGLE.png" alt="Google" class="social-icon" />
+            <img src="./imgs/FACEBOOK.png" alt="Facebook" class="social-icon" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer-section">
+    <div class="footer-background">
+      <div class="footer-content">
+        <div class="footer-left">
+          <h3 class="footer-title">ALAGANG BAYAN:</h3>
+          <p class="footer-subtitle">QUEZON CITY MUNICIPAL HEALTH INFORMATION SYSTEM</p>
+          <div class="social-media-icons">
+            <img src="./imgs/fb_Icon.svg" alt="Facebook" class="social-icon" />
+            <img src="./imgs/linkedin_Icon.svg" alt="LinkedIn" class="social-icon" />
+            <img src="./imgs/yt_Icon.svg" alt="YouTube" class="social-icon" />
+            <img src="./imgs/ig_Icon.svg" alt="Instagram" class="social-icon" />
+          </div>
+        </div>
+        <div class="footer-center">
+          <h4 class="footer-heading">Hotlines:</h4>
+          <p class="footer-phone">+1702921379</p>
+          <p class="footer-phone">+09123456789</p>
+        </div>
+        <div class="footer-right">
+          <h4 class="footer-heading">Email Us:</h4>
+          <p class="footer-email">alagangbayan.qc.ph@gmail.com</p>
+          <p class="footer-email">info@alagangbayan.qc.ph</p>
+          <h4 class="footer-heading">Support:</h4>
+          <ul class="footer-support-list">
+            <li><a href="feedback.php" class="footer-support-link">Feedback Form</a></li>
+            <li><a href="#" class="footer-support-link">Chatbot</a></li>
+            <li><a href="#" class="footer-support-link">FAQS</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+  // Dropdown toggle function
+  function toggleDropdown() {
+    const dropdown = document.getElementById('locationDropdown');
+    const button = document.querySelector('.dropdown-button');
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+    dropdown.classList.toggle('show');
+    button.setAttribute('aria-expanded', !isExpanded);
+  }
+
+  // Close dropdown when clicking outside
+  window.addEventListener('click', function(event) {
+    if (!event.target.closest('.dropdown-button')) {
+      const dropdown = document.getElementById('locationDropdown');
+      const button = document.querySelector('.dropdown-button');
+      dropdown.classList.remove('show');
+      button.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // Close dropdown on Escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      const dropdown = document.getElementById('locationDropdown');
+      const button = document.querySelector('.dropdown-button');
+      dropdown.classList.remove('show');
+      button.setAttribute('aria-expanded', 'false');
+      button.focus();
+    }
+  });
+
+  /* Login form handler
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.querySelector('input[name="emailaddress"]').value.trim();
+    const password = document.querySelector('input[name="password"]').value.trim();
+
+    const storedEmail = localStorage.getItem('email');
+    const storedPassword = localStorage.getItem('password');
+
+    if (email === storedEmail && password === storedPassword) {
+      localStorage.setItem('isLoggedIn', 'true');
+      Swal.fire({
+        icon: 'success',
+        title: 'Login Successful!',
+        text: 'Welcome back!',
+        confirmButtonText: 'Continue'
+      }).then(() => {
+        window.location.href = "loggedin.php";
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Failed',
+        text: 'Invalid credentials. Please try again.',
+      });
+    }
+  });*/
+
+  // Optional: Auto redirect if already logged in
+  if (localStorage.getItem('loggedIn') === 'true') {
+    console.log('User already logged in.');
+    // window.location.href = "loggedin.php";
+  }
+</script>
+
+</body>
+</html>

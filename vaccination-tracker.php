@@ -15,15 +15,18 @@ if ($conn->connect_error) {
 $vaccines = [];
 if (isset($_SESSION['emailaddress'])) {
   $email = $_SESSION['emailaddress'];
-  $sql = "SELECT vaccinations FROM history WHERE email = '$email'";
-  $result = $conn->query($sql);
-  if ($result && $row = $result->fetch_assoc()) {
-    $vaccinations = $row['vaccinations'];
-    $vaccines = array_map('trim', explode(',', $vaccinations));
+  $stmt = $conn->prepare("SELECT vaccine_name, date_administered, provider, next_due_date FROM vaccinations WHERE email = ?");
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  while ($row = $result->fetch_assoc()) {
+    $vaccines[] = $row;
   }
+  $stmt->close();
 }
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -75,79 +78,49 @@ $conn->close();
   </header>
 
   <main class="vaccination-main-content">
-    <section class="vaccine-info">
-      <h2>Vaccination Information</h2>
-      <p>Stay protected by keeping track of your vaccinations. Regular immunizations help prevent serious diseases and protect both you and your community.</p>
-
-      <div class="vaccination-cards">
-        <div class="vaccination-card">
-          <h3>COVID-19 Vaccine</h3>
-          <p>Protects against COVID-19 and its variants. Booster shots recommended annually.</p>
-          <span class="vaccination-status completed">Completed</span>
-        </div>
-
-        <div class="vaccination-card">
-          <h3>Influenza (Flu) Vaccine</h3>
-          <p>Annual vaccination recommended to protect against seasonal flu strains.</p>
-          <span class="vaccination-status pending">Due Soon</span>
-        </div>
-
-        <div class="vaccination-card">
-          <h3>Hepatitis B Vaccine</h3>
-          <p>Three-dose series that provides long-term protection against Hepatitis B.</p>
-          <span class="vaccination-status completed">Completed</span>
-        </div>
-      </div>
-    </section>
 
     <section class="vaccine-history">
       <h2 class="vaccination-tracker-h2">Your Vaccination History</h2>
       <p>Below is a complete record of your vaccinations. Keep this information updated and consult with your healthcare provider about any missing immunizations.</p>
 
       <table class="vaccination-table">
-        <thead>
-          <tr>
-            <th>Vaccine Name</th>
-            <th>Date Administered</th>
-            <th>Healthcare Provider</th>
-            <th>Next Due Date</th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          $vaccineInfo = [
-            'COVID-19' => ['Quezon City Health Center', '2024-03-15', '2025-03-15'],
-            'Influenza' => ['District II Health Center', '2023-10-10', '2024-10-10'],
-            'Hepatitis B' => ['Quezon City General Hospital', '2023-01-20', 'Lifetime Protection'],
-            'Tetanus' => ['District IV Health Center', '2022-06-05', '2032-06-05'],
-            'MMR' => ['Specialty Clinic', '2021-02-14', 'Lifetime Protection'],
-            'Pneumonia' => ['Health Center', '2023-05-01', '2033-05-01'],
-          ];
+  <thead>
+    <tr>
+      <th>Vaccine Name</th>
+      <th>Date Administered</th>
+      <th>Healthcare Provider</th>
+      <th>Next Due Date</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+    foreach ($vaccines as $vaccine) {
+      $name = htmlspecialchars($vaccine['vaccine_name']);
+      $provider = htmlspecialchars($vaccine['provider'] ?? 'Unknown');
+      $adminDate = $vaccine['date_administered'] ?? 'Unknown';
+      $dueDate = $vaccine['next_due_date'] ?? 'Unknown';
+      $status = ($dueDate === 'Lifetime Protection' || strtotime($dueDate) > time()) ? 'completed' : 'overdue';
+      $actionHtml = ($status === 'completed')
+  ? "<button class='vaccination-action-button'>View Record</button>"
+  : "<a href='book-appointment.php' class='vaccination-action-button'>Schedule Now</a>";
+      $statusLabel = ucfirst($status);
+      echo "
+        <tr>
+          <td>$name</td>
+          <td>" . (strtotime($adminDate) ? date('F j, Y', strtotime($adminDate)) : $adminDate) . "</td>
+          <td>$provider</td>
+          <td>$dueDate</td>
+          <td><span class='vaccination-status $status'>$statusLabel</span></td>
+          <td>$actionHtml</td>
+        </tr>
+      ";
+    }
+    ?>
+  </tbody>
+</table>
 
-          foreach ($vaccines as $vaccine) {
-            $name = htmlspecialchars($vaccine);
-            $provider = $vaccineInfo[$name][0] ?? 'Unknown Provider';
-            $adminDate = $vaccineInfo[$name][1] ?? 'Unknown';
-            $dueDate = $vaccineInfo[$name][2] ?? 'Unknown';
-            $status = ($dueDate === 'Lifetime Protection' || strtotime($dueDate) > time()) ? 'completed' : 'overdue';
-            $action = ($status === 'completed') ? 'View Record' : 'Schedule Now';
-            $statusLabel = ucfirst($status);
-            echo "
-              <tr>
-                <td>$name</td>
-                <td>" . (strtotime($adminDate) ? date('F j, Y', strtotime($adminDate)) : $adminDate) . "</td>
-                <td>$provider</td>
-                <td>$dueDate</td>
-                <td><span class='vaccination-status $status'>$statusLabel</span></td>
-                <td><button class='vaccination-action-button'>$action</button></td>
-              </tr>
-            ";
-          }
-          ?>
-        </tbody>
-      </table>
     </section>
   </main>
 

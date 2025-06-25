@@ -1,0 +1,162 @@
+/* Ensures the content is pushed below the fixed header */
+main {
+  padding: 160px 20px 40px 20px;
+  font-family: Arial, sans-serif;
+  background-color: #fdfdfd;
+}
+
+/* Account dropdown heading */
+main h2 {
+  margin-bottom: 10px;
+  font-size: 22px;
+  color: #333;
+}
+
+/* Dropdown box wrapper */
+form#accountPickerForm {
+  margin-top: 20px; /* ✅ Ensures dropdown is below fixed header */
+  margin-bottom: 30px; /* ✅ Space below dropdown before heading */
+}
+
+/* Dropdown styling */
+form select {
+  padding: 10px 14px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* Account Info heading */
+main h3 {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #222;
+}
+
+/* Table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 10px;
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+table th, table td {
+  text-align: left;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+/* Vaccination Tracker Styles */
+.vaccination-cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 30px 0;
+}
+
+.vaccination-card {
+  background: #fff;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  flex: 1 1 30%;
+  min-width: 250px;
+}
+
+.vaccination-card h3 {
+  margin-top: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.vaccination-card p {
+  font-size: 14px;
+  color: #555;
+  margin: 8px 0 12px;
+}
+
+.vaccination-status {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 20px;
+}
+
+.completed {
+  background-color: #c8e6c9;
+  color: #256029;
+}
+
+.pending {
+  background-color: #fff9c4;
+  color: #a68a00;
+}
+
+.overdue {
+  background-color: #ffcdd2;
+  color: #b71c1c;
+}
+
+.vaccination-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+}
+
+.vaccination-table th,
+.vaccination-table td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  text-align: left;
+}
+
+.vaccination-table th {
+  background-color: #A52A2A;
+  font-weight: bold;
+}
+
+.vaccination-action-button {
+  background-color: #A52A2A;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Responsive layout fix */
+@media (max-width: 768px) {
+  main {
+    padding: 120px 10px 20px 10px;
+  }
+
+  form select {
+    width: 100%;
+  }
+
+  table th, table td {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .vaccination-cards {
+    flex-direction: column;
+  }
+
+  .vaccination-card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}

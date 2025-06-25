@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -17,13 +19,13 @@
         </div>
         <div class="div">
           <div class="TEXT-HOVER">
-            <a href="index.html" class="nav-link redirect">HOME</a>
+            <a href="<?php echo isset($_SESSION['emailaddress']) ? 'loggedin.php' : 'index.html'; ?>" class="nav-link redirect">HOME</a>
           </div>
           <div class="TEXT-HOVER">
-            <a href="aboutus.html" class="nav-link">ABOUT US</a>
+            <a href="aboutus.php" class="nav-link">ABOUT US</a>
           </div>
           <div class="TEXT-HOVER">
-            <a href="services.html" class="nav-link">SERVICES</a>
+            <a href="services.php" class="nav-link">SERVICES</a>
           </div>
           <div class="LOCATION-DROPDOWN">
             <button class="dropdown-button" aria-haspopup="true" aria-expanded="false" onclick="toggleDropdown()">
@@ -31,12 +33,12 @@
               <img class="ri-arrow-down-s-line" src="./imgs/ri_arrow-down-s-line.png" alt="Dropdown arrow" />
             </button>
             <div class="dropdown-menu" id="locationDropdown">
-              <a href="district_1.html" class="dropdown-item">District I</a>
-              <a href="district_2.html" class="dropdown-item">District II</a>
-              <a href="district_3.html" class="dropdown-item">District III</a>
-              <a href="district_4.html" class="dropdown-item">District IV</a>
-              <a href="district_5.html" class="dropdown-item">District V</a>
-              <a href="district_6.html" class="dropdown-item">District VI</a>
+              <a href="district_1.php" class="dropdown-item">District I</a>
+              <a href="district_2.php" class="dropdown-item">District II</a>
+              <a href="district_3.php" class="dropdown-item">District III</a>
+              <a href="district_4.php" class="dropdown-item">District IV</a>
+              <a href="district_5.php" class="dropdown-item">District V</a>
+              <a href="district_6.php" class="dropdown-item">District VI</a>
             </div>
           </div>
         </div>
@@ -192,7 +194,7 @@
             <p class="footer-email">info@alagangbayan.qc.ph</p>
             <h4 class="footer-heading">Support:</h4>
             <ul class="footer-support-list">
-              <li><a href="feedback.html" class="footer-support-link">Feedback Form</a></li>
+              <li><a href="feedback.php" class="footer-support-link">Feedback Form</a></li>
               <li><a href="#" class="footer-support-link">Chatbot</a></li>
               <li><a href="#" class="footer-support-link">FAQS</a></li>
             </ul>
@@ -269,30 +271,10 @@
         }).then(() => {
           event.target.reset();
           // Optional: redirect
-          // window.location.href = 'appointment-confirmation.html';
+          // window.location.href = 'appointment-confirmation.php';
         });
       }
     </script>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-        
-        if (isLoggedIn) {
-          // Find all buttons or links you want to redirect
-          document.querySelectorAll('.redirect').forEach(el => {
-            // Only modify if it has an href or is a button with type='button'
-            if (el.tagName === 'A') {
-              el.setAttribute('href', 'loggedin.html');
-            } else if (el.tagName === 'BUTTON') {
-              el.addEventListener('click', function (e) {
-                e.preventDefault();
-                window.location.href = 'loggedin.html';
-              });
-            }
-          });
-        }
-      });
-    </script>
   </body>
 </html>

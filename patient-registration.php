@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -16,13 +18,13 @@
         </div>
         <div class="div">
           <div class="TEXT-HOVER">
-            <a href="index.html" class="nav-link redirect">HOME</a>
+            <a href="<?php echo isset($_SESSION['emailaddress']) ? 'loggedin.php' : 'index.html'; ?>" class="nav-link redirect">HOME</a>
           </div>
           <div class="TEXT-HOVER">
-            <a href="aboutus.html" class="nav-link">ABOUT US</a>
+            <a href="aboutus.php" class="nav-link">ABOUT US</a>
           </div>
           <div class="TEXT-HOVER">
-            <a href="services.html" class="nav-link">SERVICES</a>
+            <a href="services.php" class="nav-link">SERVICES</a>
           </div>
           <div class="LOCATION-DROPDOWN">
             <button class="dropdown-button" aria-haspopup="true" aria-expanded="false" onclick="toggleDropdown()">
@@ -30,12 +32,12 @@
               <img class="ri-arrow-down-s-line" src="./imgs/ri_arrow-down-s-line.png" alt="Dropdown arrow" />
             </button>
             <div class="dropdown-menu" id="locationDropdown">
-              <a href="district_1.html" class="dropdown-item">District I</a>
-              <a href="district_2.html" class="dropdown-item">District II</a>
-              <a href="district_3.html" class="dropdown-item">District III</a>
-              <a href="district_4.html" class="dropdown-item">District IV</a>
-              <a href="district_5.html" class="dropdown-item">District V</a>
-              <a href="district_6.html" class="dropdown-item">District VI</a>
+              <a href="district_1.php" class="dropdown-item">District I</a>
+              <a href="district_2.php" class="dropdown-item">District II</a>
+              <a href="district_3.php" class="dropdown-item">District III</a>
+              <a href="district_4.php" class="dropdown-item">District IV</a>
+              <a href="district_5.php" class="dropdown-item">District V</a>
+              <a href="district_6.php" class="dropdown-item">District VI</a>
             </div>
           </div>
         </div>
@@ -221,31 +223,31 @@
               <label class="form-label">Vaccinations Received</label>
               <div class="checkbox-group">
                 <div class="checkbox-item">
-                  <input type="checkbox" id="covid19" name="vaccinations" value="covid19">
+                  <input type="checkbox" id="covid19" name="vaccinations" value="Covid-19">
                   <label for="covid19" class="checkbox-label">COVID-19</label>
                 </div>
                 <div class="checkbox-item">
-                  <input type="checkbox" id="influenza" name="vaccinations" value="influenza">
+                  <input type="checkbox" id="influenza" name="vaccinations" value="Influenza">
                   <label for="influenza" class="checkbox-label">Influenza (Flu)</label>
                 </div>
                 <div class="checkbox-item">
-                  <input type="checkbox" id="hepatitisB" name="vaccinations" value="hepatitisB">
+                  <input type="checkbox" id="hepatitisB" name="vaccinations" value="Hepatitis-B">
                   <label for="hepatitisB" class="checkbox-label">Hepatitis B</label>
                 </div>
                 <div class="checkbox-item">
-                  <input type="checkbox" id="tetanus" name="vaccinations" value="tetanus">
+                  <input type="checkbox" id="tetanus" name="vaccinations" value="Tetanus">
                   <label for="tetanus" class="checkbox-label">Tetanus</label>
                 </div>
                 <div class="checkbox-item">
-                  <input type="checkbox" id="mmr" name="vaccinations" value="mmr">
+                  <input type="checkbox" id="mmr" name="vaccinations" value="MMR">
                   <label for="mmr" class="checkbox-label">MMR (Measles, Mumps, Rubella)</label>
                 </div>
                 <div class="checkbox-item">
-                  <input type="checkbox" id="pneumonia" name="vaccinations" value="pneumonia">
+                  <input type="checkbox" id="pneumonia" name="vaccinations" value="Pneumonia">
                   <label for="pneumonia" class="checkbox-label">Pneumonia</label>
                 </div>
                 <div class="checkbox-item">
-                  <input type="checkbox" id="other-vaccine" name="vaccinations" value="other">
+                  <input type="checkbox" id="other-vaccine" name="vaccinations" value="Other">
                   <label for="other-vaccine" class="checkbox-label">Other</label>
                 </div>
               </div>
@@ -403,7 +405,7 @@
 
         <div class="form-footer">
           <p class="form-footer-text">
-            Already have an account? <a href="login.html" class="form-link">Sign In</a>
+            Already have an account? <a href="login.php" class="form-link">Sign In</a>
           </p>
         </div>
       </div>
@@ -433,7 +435,7 @@
             <p class="footer-email">info@alagangbayan.qc.ph</p>
             <h4 class="footer-heading">Support:</h4>
             <ul class="footer-support-list">
-              <li><a href="feedback.html" class="footer-support-link">Feedback Form</a></li>
+              <li><a href="feedback.php" class="footer-support-link">Feedback Form</a></li>
               <li><a href="#" class="footer-support-link">Chatbot</a></li>
               <li><a href="#" class="footer-support-link">FAQS</a></li>
             </ul>
@@ -541,9 +543,49 @@
         alert('Patient registration completed successfully! Your profile has been created.');
         
         // Optionally redirect to login page or dashboard
-        // window.location.href = 'login.html';
+        // window.location.href = 'login.php';
       }
     </script>
+
+    <script>
+function handleRegistrationSubmit(event) {
+  event.preventDefault();
+
+  const form = document.getElementById("patientRegistrationForm");
+  const formData = new FormData(form);
+  const data = {};
+
+  for (let [key, value] of formData.entries()) {
+    if (data[key]) {
+      if (!Array.isArray(data[key])) data[key] = [data[key]];
+      data[key].push(value);
+    } else {
+      data[key] = value;
+    }
+  }
+
+  fetch("insert_history.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (!response.ok) return response.text().then(text => { throw new Error(text); });
+    return response.text();
+  })
+  .then(text => {
+    if (text === "success") {
+      alert("Medical history saved successfully!");
+      form.reset(); // optional: clears the form
+    } else {
+      alert("Unexpected response: " + text);
+    }
+  })
+  .catch(error => {
+    alert("Error saving data: " + error.message);
+  });
+}
+</script>
 
   </body>
 </html>
